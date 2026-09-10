@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    env_file:
+      # Opcional aqui para que o frontend suba sozinho; o ./dockerRunBack.sh exige o arquivo
+      - path: backend/.env
+        required: false
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    # Porta 5173 no host para coincidir com o ALLOWED_ORIGINS padrão do backend (CORS)
+    ports:
+      - "5173:80"
